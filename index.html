@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buffalo Bills — Состав команды</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bills-blue: #00338D;
+    --bills-red: #C60C30;
+    --bills-white: #FFFFFF;
+    --bills-dark: #001a4d;
+    --bills-light-blue: #0047bb;
+    --field-green: #2d5a1b;
+    --field-light: #3a7523;
+    --line-color: rgba(255,255,255,0.25);
+    --gold: #FFD700;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0e1a;
+    color: var(--bills-white);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--bills-dark) 0%, var(--bills-blue) 50%, #002070 100%);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 4px solid var(--bills-red);
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.02) 40px,
+      rgba(255,255,255,0.02) 80px
+    );
+  }
+
+  .header-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 32px 40px;
+  }
+
+  .bills-logo {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+  }
+
+  .header-text h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    letter-spacing: 4px;
+    line-height: 0.9;
+    color: var(--bills-white);
+    text-shadow: 0 0 40px rgba(198,12,48,0.6);
+  }
+
+  .header-text h1 span {
+    color: var(--bills-red);
+  }
+
+  .header-text p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    letter-spacing: 8px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .madden-badge {
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    background: var(--bills-red);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 6px 14px;
+    text-transform: uppercase;
+  }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 6px;
+    text-align: center;
+    padding: 40px 20px 10px;
+    position: relative;
+  }
+
+  .section-title.offense { color: var(--bills-white); }
+  .section-title.defense { color: #ff9999; }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: var(--bills-red);
+    margin: 8px auto 0;
+  }
+
+  .section-subtitle {
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  /* FIELD */
+  .field-wrapper {
+    padding: 0 20px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .field {
+    background: var(--field-green);
+    border-radius: 8px;
+    position: relative;
+    padding: 20px 10px;
+    overflow: visible;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+
+  /* Field stripes */
+  .field::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 50%,
+      rgba(0,0,0,0.06) 50%,
+      rgba(0,0,0,0.06) 100%
+    );
+    background-size: 80px 100%;
+    pointer-events: none;
+  }
+
+  .field-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .yard-line {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  .scrimmage-line {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background: rgba(255,220,0,0.5);
+  }
+
+  /* FORMATION ROWS */
+  .formation {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 0;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* PLAYER CARD */
+  .player {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    width: 90px;
+    transition: transform 0.2s ease;
+  }
+
+  .player:hover {
+    transform: translateY(-6px);
+    z-index: 100;
+  }
+
+  .player-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--bills-blue);
+    background: var(--bills-dark);
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .player:hover .player-circle {
+    border-color: var(--bills-red);
+    box-shadow: 0 0 20px rgba(198,12,48,0.6);
+  }
+
+  .player-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .player-circle .fallback-avatar {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: rgba(255,255,255,0.7);
+    background: linear-gradient(135deg, var(--bills-blue), var(--bills-dark));
+  }
+
+  .ovr-badge {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: var(--bills-red);
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #0a0e1a;
+    z-index: 2;
+  }
+
+  .ovr-badge.elite { background: var(--gold); color: #111; }
+  .ovr-badge.great { background: #44bb44; color: #fff; }
+  .ovr-badge.good { background: var(--bills-blue); color: #fff; }
+
+  .player-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    margin-top: 5px;
+    line-height: 1.2;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+  }
+
+  .player-pos {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  /* TOOLTIP */
+  .tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(5,8,20,0.97);
+    border: 1px solid var(--bills-red);
+    border-radius: 8px;
+    padding: 12px 14px;
+    width: 200px;
+    z-index: 999;
+    pointer-events: none;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+  }
+
+  .player:hover .tooltip { display: block; }
+
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 7px solid transparent;
+    border-top-color: var(--bills-red);
+  }
+
+  .tooltip-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+  }
+
+  .tooltip-ovr {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .tooltip-ovr strong {
+    font-size: 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    margin-left: 4px;
+  }
+
+  .tooltip-ovr.elite strong { color: var(--gold); }
+  .tooltip-ovr.great strong { color: #55dd55; }
+  .tooltip-ovr.good strong { color: #7799ff; }
+
+  .tooltip-strengths {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .strength-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .strength-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--bills-red);
+    flex-shrink: 0;
+  }
+
+  .stat-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 8px;
+  }
+
+  .stat-label {
+    width: 30px;
+    text-align: right;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .stat-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--bills-red);
+  }
+
+  .stat-val {
+    width: 22px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* DIVIDER */
+  .divider {
+    max-width: 900px;
+    margin: 20px auto;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--bills-red), transparent);
+  }
+
+  /* XFACTOR BADGE */
+  .xfactor {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    background: var(--gold);
+    color: #111;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 9px;
+    padding: 2px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    z-index: 3;
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: rgba(255,255,255,0.2);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <!-- SVG Buffalo Bills logo -->
+    <svg class="bills-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="100" cy="100" r="95" fill="#00338D" stroke="#C60C30" stroke-width="6"/>
+      <!-- Buffalo silhouette simplified -->
+      <g transform="translate(30,50)" fill="#ffffff">
+        <ellipse cx="70" cy="70" rx="55" ry="45" fill="#C60C30"/>
+        <ellipse cx="70" cy="70" rx="50" ry="40" fill="#00338D"/>
+        <!-- Buffalo head -->
+        <ellipse cx="105" cy="55" rx="22" ry="20" fill="#C60C30"/>
+        <ellipse cx="118" cy="48" rx="10" ry="8" fill="#C60C30"/>
+        <!-- Horn -->
+        <path d="M118,42 Q130,30 128,20 Q125,15 120,22 Q119,30 115,38 Z" fill="#ffffff"/>
+        <!-- Legs -->
+        <rect x="40" y="100" width="12" height="25" rx="4" fill="#C60C30"/>
+        <rect x="60" y="100" width="12" height="25" rx="4" fill="#C60C30"/>
+        <rect x="82" y="100" width="12" height="25" rx="4" fill="#C60C30"/>
+        <rect x="102" y="100" width="12" height="25" rx="4" fill="#C60C30"/>
+        <!-- Tail -->
+        <path d="M18,75 Q5,65 8,50 Q12,45 18,55 Q20,65 25,70 Z" fill="#C60C30"/>
+      </g>
+    </svg>
+    <div class="header-text">
+      <h1>BUFFALO <span>BILLS</span></h1>
+      <p>NFL • AFC East • 2025 Season</p>
+    </div>
+  </div>
+  <div class="madden-badge">Madden NFL 26 Ratings</div>
+</header>
+
+<!-- ==================== OFFENSE ==================== -->
+<div class="section-title offense">НАПАДЕНИЕ</div>
+<div class="section-subtitle">Offensive Formation</div>
+
+<div class="field-wrapper">
+  <div class="field">
+    <div class="field-lines">
+      <div class="yard-line" style="top:30%"></div>
+      <div class="yard-line" style="top:60%"></div>
+      <div class="scrimmage-line" style="top:72%"></div>
+    </div>
+
+    <div class="formation">
+
+      <!-- QB -->
+      <div class="row">
+        <div class="player" id="allen">
+          <div class="player-circle">
+            <span class="xfactor">X-FACTOR</span>
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/gvnbiyxnkqtpzb83lqmn" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Josh Allen">
+            <div class="fallback-avatar" style="display:none">JA</div>
+            <div class="ovr-badge elite">99</div>
+          </div>
+          <div class="player-name">Josh Allen</div>
+          <div class="player-pos">QB</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Josh Allen</div>
+            <div class="tooltip-ovr elite">OVR <strong>99</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>X-Factor: Bazooka (дальние пасы)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Элитный мобильный QB</div>
+              <div class="strength-item"><span class="strength-dot"></span>Сила броска: лучший в лиге</div>
+              <div class="strength-item"><span class="strength-dot"></span>Непробиваемый (INJ 99)</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:88%"></div></div><span class="stat-val">88</span></div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:81%"></div></div><span class="stat-val">81</span></div>
+            <div class="stat-bar-row"><span class="stat-label">AWR</span><div class="stat-bar"><div class="stat-fill" style="width:97%"></div></div><span class="stat-val">97</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HB + FB -->
+      <div class="row">
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/wfqkycaknflvbtncqnko" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Reggie Gilliam">
+            <div class="fallback-avatar" style="display:none">RG</div>
+            <div class="ovr-badge good">83</div>
+          </div>
+          <div class="player-name">R. Gilliam</div>
+          <div class="player-pos">FB</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Reggie Gilliam</div>
+            <div class="tooltip-ovr good">OVR <strong>83</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Ведущий блокировщик</div>
+              <div class="strength-item"><span class="strength-dot"></span>Скорость 87 для фулбека</div>
+              <div class="strength-item"><span class="strength-dot"></span>Хорош в пасовых маршрутах</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:87%"></div></div><span class="stat-val">87</span></div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:81%"></div></div><span class="stat-val">81</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/mhmptclvebtwdsgogqhq" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="James Cook">
+            <div class="fallback-avatar" style="display:none">JC</div>
+            <div class="ovr-badge great">93</div>
+          </div>
+          <div class="player-name">James Cook</div>
+          <div class="player-pos">HB</div>
+          <div class="tooltip">
+            <div class="tooltip-name">James Cook III</div>
+            <div class="tooltip-ovr great">OVR <strong>93</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Взрывная скорость и ловкость</div>
+              <div class="strength-item"><span class="strength-dot"></span>Элитное изменение направления (COD 92)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Опасен в пасовой игре</div>
+              <div class="strength-item"><span class="strength-dot"></span>Высокий игровой интеллект (AWR 91)</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:92%"></div></div><span class="stat-val">92</span></div>
+            <div class="stat-bar-row"><span class="stat-label">AGI</span><div class="stat-bar"><div class="stat-fill" style="width:94%"></div></div><span class="stat-val">94</span></div>
+            <div class="stat-bar-row"><span class="stat-label">COD</span><div class="stat-bar"><div class="stat-fill" style="width:92%"></div></div><span class="stat-val">92</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WR + TE -->
+      <div class="row">
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/xpjpotjibkqhqrbynvtc" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Brandin Cooks">
+            <div class="fallback-avatar" style="display:none">BC</div>
+            <div class="ovr-badge good">78</div>
+          </div>
+          <div class="player-name">B. Cooks</div>
+          <div class="player-pos">WR</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Brandin Cooks</div>
+            <div class="tooltip-ovr good">OVR <strong>78</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Топ-скорость в лиге (SPD 93)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Элитная маршрутная агрессия (COD 90)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Незаменим на глубоких маршрутах</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:93%"></div></div><span class="stat-val">93</span></div>
+            <div class="stat-bar-row"><span class="stat-label">AGI</span><div class="stat-bar"><div class="stat-fill" style="width:89%"></div></div><span class="stat-val">89</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/zkzuqkkpx6dvfknpcxkk" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Khalil Shakir">
+            <div class="fallback-avatar" style="display:none">KS</div>
+            <div class="ovr-badge good">82</div>
+          </div>
+          <div class="player-name">K. Shakir</div>
+          <div class="player-pos">WR</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Khalil Shakir</div>
+            <div class="tooltip-ovr good">OVR <strong>82</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Отличный слот-ресивер</div>
+              <div class="strength-item"><span class="strength-dot"></span>Быстрые руки и COD 86</div>
+              <div class="strength-item"><span class="strength-dot"></span>Надёжный в трудных ситуациях</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div><span class="stat-val">90</span></div>
+            <div class="stat-bar-row"><span class="stat-label">COD</span><div class="stat-bar"><div class="stat-fill" style="width:86%"></div></div><span class="stat-val">86</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/hq4jnpbhycrpwt3hpqmq" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Dalton Kincaid">
+            <div class="fallback-avatar" style="display:none">DK</div>
+            <div class="ovr-badge good">81</div>
+          </div>
+          <div class="player-name">D. Kincaid</div>
+          <div class="player-pos">TE</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Dalton Kincaid</div>
+            <div class="tooltip-ovr good">OVR <strong>81</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Скоростной тайт-энд (SPD 86)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Сильный маршрутный раннер</div>
+              <div class="strength-item"><span class="strength-dot"></span>Надёжный пасовой выход</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:86%"></div></div><span class="stat-val">86</span></div>
+            <div class="stat-bar-row"><span class="stat-label">COD</span><div class="stat-bar"><div class="stat-fill" style="width:79%"></div></div><span class="stat-val">79</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/gd7rqvkqpqzqozrxbyqx" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Keon Coleman">
+            <div class="fallback-avatar" style="display:none">KC</div>
+            <div class="ovr-badge good">75</div>
+          </div>
+          <div class="player-name">K. Coleman</div>
+          <div class="player-pos">WR</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Keon Coleman</div>
+            <div class="tooltip-ovr good">OVR <strong>75</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Крупный физический ресивер</div>
+              <div class="strength-item"><span class="strength-dot"></span>Отличное изменение направления (COD 88)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Опасен в красной зоне</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:87%"></div></div><span class="stat-val">87</span></div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:72%"></div></div><span class="stat-val">72</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- O-LINE -->
+      <div class="row">
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/xjimltdnyzmwk3qfxwdy" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Dion Dawkins">
+            <div class="fallback-avatar" style="display:none">DD</div>
+            <div class="ovr-badge great">88</div>
+          </div>
+          <div class="player-name">D. Dawkins</div>
+          <div class="player-pos">LT</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Dion Dawkins</div>
+            <div class="tooltip-ovr great">OVR <strong>88</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Элитная сила (STR 92)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Лучший левый тэкл Биллс</div>
+              <div class="strength-item"><span class="strength-dot"></span>Высокий игровой IQ (AWR 97)</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:92%"></div></div><span class="stat-val">92</span></div>
+            <div class="stat-bar-row"><span class="stat-label">AWR</span><div class="stat-bar"><div class="stat-fill" style="width:97%"></div></div><span class="stat-val">97</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">DE</div>
+            <div class="ovr-badge good">79</div>
+          </div>
+          <div class="player-name">D. Edwards</div>
+          <div class="player-pos">LG</div>
+          <div class="tooltip">
+            <div class="tooltip-name">David Edwards</div>
+            <div class="tooltip-ovr good">OVR <strong>79</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Надёжный гард</div>
+              <div class="strength-item"><span class="strength-dot"></span>Сила STR 82</div>
+              <div class="strength-item"><span class="strength-dot"></span>Стабилен в беговых блоках</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:82%"></div></div><span class="stat-val">82</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy2" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">CM</div>
+            <div class="ovr-badge good">81</div>
+          </div>
+          <div class="player-name">C. McGovern</div>
+          <div class="player-pos">C</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Connor McGovern</div>
+            <div class="tooltip-ovr good">OVR <strong>81</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Лучший игровой IQ на линии (AWR 92)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Сила STR 87</div>
+              <div class="strength-item"><span class="strength-dot"></span>Надёжный снепер</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:87%"></div></div><span class="stat-val">87</span></div>
+            <div class="stat-bar-row"><span class="stat-label">AWR</span><div class="stat-bar"><div class="stat-fill" style="width:92%"></div></div><span class="stat-val">92</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy3" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">OT</div>
+            <div class="ovr-badge good">75</div>
+          </div>
+          <div class="player-name">O. Torrence</div>
+          <div class="player-pos">RG</div>
+          <div class="tooltip">
+            <div class="tooltip-name">O'Cyrus Torrence</div>
+            <div class="tooltip-ovr good">OVR <strong>75</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Самый сильный гард (STR 91)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Мощный блокировщик в ране</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:91%"></div></div><span class="stat-val">91</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy4" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">SB</div>
+            <div class="ovr-badge good">85</div>
+          </div>
+          <div class="player-name">S. Brown</div>
+          <div class="player-pos">RT</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Spencer Brown</div>
+            <div class="tooltip-ovr good">OVR <strong>85</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Гигантский правый тэкл (6'8")</div>
+              <div class="strength-item"><span class="strength-dot"></span>Сила STR 91</div>
+              <div class="strength-item"><span class="strength-dot"></span>Элитный блокировщик в ране</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:91%"></div></div><span class="stat-val">91</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /formation -->
+  </div><!-- /field -->
+</div><!-- /field-wrapper -->
+
+<div class="divider"></div>
+
+<!-- ==================== DEFENSE ==================== -->
+<div class="section-title defense">ЗАЩИТА</div>
+<div class="section-subtitle">4-3 Defensive Formation</div>
+
+<div class="field-wrapper">
+  <div class="field">
+    <div class="field-lines">
+      <div class="yard-line" style="top:30%"></div>
+      <div class="yard-line" style="top:60%"></div>
+      <div class="scrimmage-line" style="top:28%"></div>
+    </div>
+
+    <div class="formation">
+
+      <!-- DB Row (CB + S + CB) -->
+      <div class="row">
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy5" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">TJ</div>
+            <div class="ovr-badge good">84</div>
+          </div>
+          <div class="player-name">T. Johnson</div>
+          <div class="player-pos">CB</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Taron Johnson</div>
+            <div class="tooltip-ovr good">OVR <strong>84</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Быстрый угловой (SPD 90)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Элитная реакция (COD 84)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Высокий игровой IQ (AWR 91)</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div><span class="stat-val">90</span></div>
+            <div class="stat-bar-row"><span class="stat-label">COD</span><div class="stat-bar"><div class="stat-fill" style="width:84%"></div></div><span class="stat-val">84</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy6" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">CB</div>
+            <div class="ovr-badge good">80</div>
+          </div>
+          <div class="player-name">C. Bishop</div>
+          <div class="player-pos">FS</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Cole Bishop</div>
+            <div class="tooltip-ovr good">OVR <strong>80</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Молниеносный сейфти (SPD 91)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Отличное изменение направления (COD 81)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Молодой перспективный игрок</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:91%"></div></div><span class="stat-val">91</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy7" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">TR</div>
+            <div class="ovr-badge good">77</div>
+          </div>
+          <div class="player-name">T. Rapp</div>
+          <div class="player-pos">SS</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Taylor Rapp</div>
+            <div class="tooltip-ovr good">OVR <strong>77</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Физический сейфти</div>
+              <div class="strength-item"><span class="strength-dot"></span>Хорошая гибкость (AGI 86)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Надёжный в зонной защите</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:86%"></div></div><span class="stat-val">86</span></div>
+            <div class="stat-bar-row"><span class="stat-label">COD</span><div class="stat-bar"><div class="stat-fill" style="width:86%"></div></div><span class="stat-val">86</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy8" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">CB</div>
+            <div class="ovr-badge good">83</div>
+          </div>
+          <div class="player-name">C. Benford</div>
+          <div class="player-pos">CB</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Christian Benford</div>
+            <div class="tooltip-ovr good">OVR <strong>83</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Быстрый и гибкий (SPD 88)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Хорошая реакция (COD 81)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Стабилен в один-на-один</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:88%"></div></div><span class="stat-val">88</span></div>
+            <div class="stat-bar-row"><span class="stat-label">COD</span><div class="stat-bar"><div class="stat-fill" style="width:81%"></div></div><span class="stat-val">81</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linebackers -->
+      <div class="row">
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy9" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">MM</div>
+            <div class="ovr-badge good">83</div>
+          </div>
+          <div class="player-name">M. Milano</div>
+          <div class="player-pos">WILL LB</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Matt Milano</div>
+            <div class="tooltip-ovr good">OVR <strong>83</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>X-Factor: Reinforcement</div>
+              <div class="strength-item"><span class="strength-dot"></span>Быстрый лайнбэкер (SPD 86)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Высокий игровой IQ (AWR 91)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Элитный в пасовой защите</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:86%"></div></div><span class="stat-val">86</span></div>
+            <div class="stat-bar-row"><span class="stat-label">AWR</span><div class="stat-bar"><div class="stat-fill" style="width:91%"></div></div><span class="stat-val">91</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy10" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">TB</div>
+            <div class="ovr-badge good">83</div>
+          </div>
+          <div class="player-name">T. Bernard</div>
+          <div class="player-pos">MIKE LB</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Terrel Bernard</div>
+            <div class="tooltip-ovr good">OVR <strong>83</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Стремительный средний LB (SPD 86)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Гибкость AGI 83</div>
+              <div class="strength-item"><span class="strength-dot"></span>Надёжный лидер обороны</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:86%"></div></div><span class="stat-val">86</span></div>
+            <div class="stat-bar-row"><span class="stat-label">AGI</span><div class="stat-bar"><div class="stat-fill" style="width:83%"></div></div><span class="stat-val">83</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- D-Line -->
+      <div class="row">
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy11" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">GR</div>
+            <div class="ovr-badge great">88</div>
+          </div>
+          <div class="player-name">G. Rousseau</div>
+          <div class="player-pos">LEDGE</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Greg Rousseau</div>
+            <div class="tooltip-ovr great">OVR <strong>88</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Быстрый край (SPD 86)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Гибкость на пасовом рашинге (AGI 82)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Высокий IQ (AWR 92)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Опасен на пасовых сетках</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:86%"></div></div><span class="stat-val">86</span></div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:83%"></div></div><span class="stat-val">83</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy12" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">DJ</div>
+            <div class="ovr-badge good">81</div>
+          </div>
+          <div class="player-name">DaQuan Jones</div>
+          <div class="player-pos">DT</div>
+          <div class="tooltip">
+            <div class="tooltip-name">DaQuan Jones</div>
+            <div class="tooltip-ovr good">OVR <strong>81</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Мощный нос-тэкл (STR 88)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Блокирует беговые коридоры</div>
+              <div class="strength-item"><span class="strength-dot"></span>Надёжность (AWR 91)</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:88%"></div></div><span class="stat-val">88</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy13" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">EO</div>
+            <div class="ovr-badge good">82</div>
+          </div>
+          <div class="player-name">Ed Oliver</div>
+          <div class="player-pos">DT</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Ed Oliver</div>
+            <div class="tooltip-ovr good">OVR <strong>82</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Взрывной внутренний рашер (SPD 82)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Сила STR 89</div>
+              <div class="strength-item"><span class="strength-dot"></span>Быстрый первый шаг (AGI 84)</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:89%"></div></div><span class="stat-val">89</span></div>
+            <div class="stat-bar-row"><span class="stat-label">SPD</span><div class="stat-bar"><div class="stat-fill" style="width:82%"></div></div><span class="stat-val">82</span></div>
+          </div>
+        </div>
+        <div class="player">
+          <div class="player-circle">
+            <img src="https://static.www.nfl.com/image/private/f_auto,q_auto/league/dummy14" 
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+            <div class="fallback-avatar">JB</div>
+            <div class="ovr-badge good">86</div>
+          </div>
+          <div class="player-name">J. Bosa</div>
+          <div class="player-pos">REDGE</div>
+          <div class="tooltip">
+            <div class="tooltip-name">Joey Bosa</div>
+            <div class="tooltip-ovr good">OVR <strong>86</strong></div>
+            <div class="tooltip-strengths">
+              <div class="strength-item"><span class="strength-dot"></span>Высокий игровой IQ (AWR 94)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Мощный рашер (STR 87)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Гибкость в плане захватов (AGI 83)</div>
+              <div class="strength-item"><span class="strength-dot"></span>Опытный ветеран лиги</div>
+            </div>
+            <div class="stat-bar-row"><span class="stat-label">STR</span><div class="stat-bar"><div class="stat-fill" style="width:87%"></div></div><span class="stat-val">87</span></div>
+            <div class="stat-bar-row"><span class="stat-label">AWR</span><div class="stat-bar"><div class="stat-fill" style="width:94%"></div></div><span class="stat-val">94</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /formation defense -->
+  </div><!-- /field -->
+</div><!-- /field-wrapper -->
+
+<footer>
+  Buffalo Bills • Madden NFL 26 Ratings • 2025–2026 Season • AFC East
+</footer>
+
+</body>
+</html>
